@@ -1,9 +1,12 @@
 import type { DailyUpdate } from "../types";
+import { CONFIG } from "../config/production";
 
 // Google Sheets API configuration
-const SPREADSHEET_ID = import.meta.env.VITE_GOOGLE_SHEETS_ID;
-const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
-const GOOGLE_FORM_URL = import.meta.env.VITE_GOOGLE_FORM_URL; // Optional: Google Form URL for submissions
+// Use environment variables in development, fallback to production config
+const SPREADSHEET_ID = import.meta.env.VITE_GOOGLE_SHEETS_ID || CONFIG.GOOGLE_SHEETS_ID;
+const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY || CONFIG.GOOGLE_API_KEY;
+const GOOGLE_FORM_URL = import.meta.env.VITE_GOOGLE_FORM_URL || CONFIG.GOOGLE_FORM_URL;
+const GOOGLE_WEBAPP_URL = import.meta.env.VITE_GOOGLE_WEBAPP_URL || CONFIG.GOOGLE_WEBAPP_URL;
 
 class GoogleSheetsService {
   // Test method to verify sheet access
@@ -207,7 +210,7 @@ class GoogleSheetsService {
 
   // Method 1: Try Google Apps Script Web App
   private async tryWebAppSubmission(record: DailyUpdate): Promise<boolean> {
-    const webAppUrl = import.meta.env.VITE_GOOGLE_WEBAPP_URL;
+    const webAppUrl = GOOGLE_WEBAPP_URL;
     if (!webAppUrl) {
       console.log("ℹ️ Google Web App URL not configured");
       return false;
@@ -368,7 +371,7 @@ class GoogleSheetsService {
 
   // Method to update via Google Apps Script Web App
   private async tryWebAppUpdate(record: DailyUpdate): Promise<boolean> {
-    const webAppUrl = import.meta.env.VITE_GOOGLE_WEBAPP_URL;
+    const webAppUrl = GOOGLE_WEBAPP_URL;
     if (!webAppUrl) {
       console.log("ℹ️ Google Web App URL not configured for updates");
       return false;
@@ -470,7 +473,7 @@ class GoogleSheetsService {
 
   // Method to delete via Google Apps Script Web App
   private async tryWebAppDeletion(id: string): Promise<boolean> {
-    const webAppUrl = import.meta.env.VITE_GOOGLE_WEBAPP_URL;
+    const webAppUrl = GOOGLE_WEBAPP_URL;
     if (!webAppUrl) {
       console.log("ℹ️ Google Web App URL not configured for deletion");
       return false;
