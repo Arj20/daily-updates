@@ -176,7 +176,7 @@ class GoogleSheetsService {
       }
 
       // Method 2: Try Google Forms submission (if configured)
-      const formSuccess = await this.tryFormSubmission(newRecord);
+      const formSuccess = await this.tryFormSubmission();
       if (formSuccess) {
         console.log("✅ Successfully saved via Google Forms!");
         return newRecord;
